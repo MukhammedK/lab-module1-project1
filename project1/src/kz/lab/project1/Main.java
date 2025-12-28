@@ -1,19 +1,16 @@
-import kz.lab.project1.TransactionInterface;
-import kz.lab.project1.TransactionService;
+import kz.lab.project1.TransactionMode;
 
 void main() {
     IO.println("Project1...");
 
-    // Код по умолчанию работает в режиме MODE1
-    TransactionInterface transactionInterface = new TransactionService();
 
     String cardNumber = "4111111111111111";
     long amount = 100;
-    String transactionId = transactionInterface.startTransaction(cardNumber, amount);
+    for (TransactionMode mode : TransactionMode.values()) {
 
-    IO.println(String.format("TransactionId: %s", transactionId));
+        String txId = mode.start(cardNumber, amount);
+        String result = mode.complete(txId, true);
 
-    boolean success = true;
-    String result = transactionInterface.completeTransaction(transactionId, success);
-    IO.println(String.format("Result: %s", result));
+        System.out.println(mode + " result = " + result);
+    }
 }
